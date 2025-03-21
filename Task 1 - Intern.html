@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Snowy0416- Task 1</title>
+        <style>.block { background-color:gainsboro; padding:1em; } </style>
+    </head>
+    <body>
+        <h1>Snowy0416 - Task 1</h1>
+        <h2>My code:</h2>
+        <p id="code" class="block"></p>
+        <h2>Results of my code:</h2>
+        <p id="results" class="block"></p>
+        <script id="task_id">
+           
+            let data = [
+                {"page_id": 6682420, "creation_date": "2021-09-13", "title": "André Baniwa"},
+                {"page_id": 4246775, "creation_date": "2013-12-10", "title": "Benki Piyãko"},
+                {"page_id": 5882073, "creation_date": "2018-12-03", "title": "Célia Xakriabá"},
+                {"page_id": 6977673, "creation_date": "2022-10-05", "title": "Chirley Pankará"},
+                {"page_id": 7069044, "creation_date": "2023-02-16", "title": "Cristine Takuá"},
+                {"page_id": 2119511, "creation_date": "2009-01-28", "title": "Eliane Potiguara"},
+                {"page_id": 6714407, "creation_date": "2021-10-09", "title": "Jaider Esbell"},
+                {"page_id": 6977117, "creation_date": "2022-10-04", "title": "Jerônimo Rodrigues"},
+                {"page_id": 6935831, "creation_date": "2022-08-02", "title": "Nanblá Gakran"},
+                {"page_id": 4908665, "creation_date": "2015-11-13", "title": "Sônia Guajajara"},
+                {"page_id": 5886895, "creation_date": "2018-12-12", "title": "Vãngri Kaingáng"},
+                {"page_id": 6549130, "creation_date": "2021-04-10", "title": "Zezico Guajajara"},
+            ];
+            // Function to format the date into a human-readable format
+            function formatDate(dateString) {
+                try {
+                    const date = new Date(dateString);
+
+                    // Check if the date is valid
+                    if (isNaN(date.getTime())) {
+                        throw new Error("Invalid date format");
+                    }
+
+                    // Define formatting options
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+
+                    // Return the formatted date
+                    return date.toLocaleDateString('en-US', options);
+                } catch (error) {
+                    console.error(`Error formatting date: ${error.message}`);
+                    return "Invalid date";
+                }
+            }
+
+            // Function to display the results in the HTML
+            function displayResults() {
+                const resultsElement = document.getElementById('results');
+                resultsElement.innerHTML = ''; // Clear previous content
+
+                // Check if data is an array
+                if (!Array.isArray(data)) {
+                    console.error("Error: Data is not an array.");
+                    resultsElement.innerHTML = "<p>Error: Data is not an array.</p>";
+                    return;
+                }
+
+                // Loop through each item in the data array
+                data.forEach((item, index) => {
+                    try {
+                        // Check if required fields are present
+                        if (!item.title || !item.page_id || !item.creation_date) {
+                            throw new Error(`Missing required fields in item at index ${index}`);
+                        }
+
+                        // Format the creation date
+                        const formattedDate = formatDate(item.creation_date);
+
+                        // Create the result text
+                        const resultText = `Article "${item.title}" (Page ID ${item.page_id}) was created on ${formattedDate}.`;
+
+                        // Create a new paragraph element and add the result text
+                        const paragraph = document.createElement('p');
+                        paragraph.textContent = resultText;
+                        resultsElement.appendChild(paragraph);
+                    } catch (error) {
+                        // Handle errors and display them in red
+                        console.error(`Error processing item at index ${index}: ${error.message}`);
+                        const errorParagraph = document.createElement('p');
+                        errorParagraph.textContent = `Error: ${error.message}`;
+                        errorParagraph.style.color = 'red';
+                        resultsElement.appendChild(errorParagraph);
+                    }
+                });
+            }
+            // Call the function to display results
+            displayResults();
+        </script>
+
+        <script>
+            document.getElementById("code").innerText = document.getElementById("task_id").text;
+        </script>
+    </body>
+</html>
